@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 7 – Stereo Size Estimation & Pose/Hand Tracking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: #222;
+      color: #fff;
+      padding: 1rem 2rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    header p {
+      margin: 0.3rem 0 0;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    main {
+      padding: 1.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2,
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .image-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .image-row img {
+      max-width: 260px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    video {
+      max-width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    ul {
+      margin-top: 0.3rem;
+    }
+
+    .inputs-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .inputs-row label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .inputs-row input {
+      padding: 0.25rem 0.45rem;
+      width: 120px;
+    }
+
+    .canvas-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .canvas-card {
+      flex: 1 1 320px;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: crosshair;
+      max-width: 100%;
+    }
+
+    button {
+      padding: 0.4rem 0.8rem;
+      margin-right: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #888;
+      background: #eee;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      font-size: 0.92rem;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Module 7 – Stereo Size Estimation &amp; Pose/Hand Tracking</h1>
+    <p>Q1: Calibrated Stereo · Q2: Uncalibrated Stereo · Q3: Real-time Pose &amp; Hand Tracking</p>
+  </header>
+
+  <main>
+    <p>
+      This page summarizes the work for <strong>Module 7</strong>. Q1 is now implemented as a
+      <strong>calibrated stereo web application</strong> that re-uses the same object as Module 1.
+      Q2 is a handwritten derivation only, and Q3 is a real-time pose &amp; hand tracking demo
+      with CSV output.
+    </p>
+
+    <!-- Q1: Calibrated stereo – INTERACTIVE WEB APP -->
+    <div class="card">
+      <h2>Q1 – Calibrated Stereo Object-Size Estimation (Interactive)</h2>
+      <p>
+        We re-implement Assignment 1 using <strong>calibrated stereo</strong>. You upload
+        a left &amp; right image of the same object (cup) taken from slightly different
+        positions, enter the stereo parameters, click on the object in each image, and the
+        page computes:
+      </p>
+      <ul>
+        <li>Disparity <code>d = x_L - x_R</code> (pixels).</li>
+        <li>Depth <code>Z = (f_px · B) / d</code> (cm).</li>
+        <li>Object size <code>X = Z · x_pixels / f_px</code> (cm).</li>
+        <li>Relative error with respect to the true measured size.</li>
+      </ul>
+
+      <h3>1. Enter Stereo Parameters</h3>
+      <p class="note">
+        Use the <strong>same cup</strong> as Module 1. Capture a left and right photo with
+        your phone camera (small horizontal shift). Measure the baseline with a ruler.
+      </p>
+      <div class="inputs-row">
+        <div>
+          <label for="baselineInput">Baseline B (cm)</label>
+          <input type="number" id="baselineInput" step="0.01" placeholder="e.g. 6.0" />
+        </div>
+        <div>
+          <label for="focalInput">Focal length f (mm)</label>
+          <input type="number" id="focalInput" step="0.01" placeholder="from EXIF" />
+        </div>
+        <div>
+          <label for="sensorWidthInput">Sensor width (mm)</label>
+          <input type="number" id="sensorWidthInput" step="0.01" placeholder="phone spec" />
+        </div>
+        <div>
+          <label for="trueSizeInput">True object size X<sub>true</sub> (cm)</label>
+          <input type="number" id="trueSizeInput" step="0.01" placeholder="ruler value" />
+        </div>
+      </div>
+
+      <h3>2. Upload Stereo Images</h3>
+      <div class="inputs-row">
+        <div>
+          <label for="leftImageInput">Left image (L)</label>
+          <input type="file" id="leftImageInput" accept="image/*" />
+        </div>
+        <div>
+          <label for="rightImageInput">Right image (R)</label>
+          <input type="file" id="rightImageInput" accept="image/*" />
+        </div>
+      </div>
+      <p class="note">
+        After the images load:
+        – On the <strong>left image</strong>, click <strong>TOP then BOTTOM</strong> of the cup.
+        – On the <strong>right image</strong>, click the <strong>same TOP point</strong>.
+        The script uses the left top/bottom pair to measure height in pixels, and the
+        left/right top pair to measure disparity.
+      </p>
+
+      <div class="canvas-row">
+        <div class="canvas-card">
+          <h4>Left Image (L)</h4>
+          <canvas id="leftCanvas"></canvas>
+          <p class="note">
+            Click 2 points: <strong>1 = top</strong>, <strong>2 = bottom</strong> of the object.
+          </p>
+        </div>
+        <div class="canvas-card">
+          <h4>Right Image (R)</h4>
+          <canvas id="rightCanvas"></canvas>
+          <p class="note">
+            Click 1 point: <strong>top of the object</strong> (match point 1 from the left image).
+          </p>
+        </div>
+      </div>
+
+      <p style="margin-top:0.6rem;">
+        <button class="primary" id="computeBtn">Compute Stereo Size</button>
+        <button id="resetQ1Btn">Reset Points</button>
+      </p>
+      <p class="note" id="q1Status">Status: Waiting for images and clicks…</p>
+
+      <h3>3. Stereo Computation Results</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Quantity</th>
+            <th>Symbol</th>
+            <th>Value</th>
+            <th>Unit / Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline between camera positions</td>
+            <td>B</td>
+            <td id="valB">–</td>
+            <td>cm (distance between left and right viewpoints)</td>
+          </tr>
+          <tr>
+            <td>Focal length (physical)</td>
+            <td>f</td>
+            <td id="valFmm">–</td>
+            <td>mm (from EXIF / camera specs)</td>
+          </tr>
+          <tr>
+            <td>Sensor width</td>
+            <td>sensor_width</td>
+            <td id="valSensor">–</td>
+            <td>mm</td>
+          </tr>
+          <tr>
+            <td>Image width</td>
+            <td>image_width_px</td>
+            <td id="valImgWidth">–</td>
+            <td>pixels (from left image)</td>
+          </tr>
+          <tr>
+            <td>Focal length in pixels</td>
+            <td>f_px</td>
+            <td id="valFpx">–</td>
+            <td>px ( <code>f_px = f_mm · image_width_px / sensor_width_mm</code> )</td>
+          </tr>
+          <tr>
+            <td>Measured disparity of top point</td>
+            <td>d</td>
+            <td id="valDisparity">–</td>
+            <td>pixels ( <code>d = x_L - x_R</code> )</td>
+          </tr>
+          <tr>
+            <td>Estimated depth of cup</td>
+            <td>Z</td>
+            <td id="valZ">–</td>
+            <td>cm ( <code>Z = (f_px · B) / d</code> )</td>
+          </tr>
+          <tr>
+            <td>Cup height in the left image</td>
+            <td>x_pixels</td>
+            <td id="valXPixels">–</td>
+            <td>pixels (distance between top and bottom clicks)</td>
+          </tr>
+          <tr>
+            <td>Estimated real cup height</td>
+            <td>X</td>
+            <td id="valXcm">–</td>
+            <td>cm ( <code>X = Z · x_pixels / f_px</code> )</td>
+          </tr>
+          <tr>
+            <td>True measured height (ruler)</td>
+            <td>X_true</td>
+            <td id="valTrue">–</td>
+            <td>cm</td>
+          </tr>
+          <tr>
+            <td>Relative error</td>
+            <td>Error</td>
+            <td id="valError">–</td>
+            <td>% ( <code>|Predicted − True| / True × 100</code> )</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:1.2rem;">Calibrated Stereo – Demonstration Video (Optional)</h3>
+      <p class="note">
+        This video can show the full workflow: capturing left &amp; right images, entering parameters,
+        clicking points, and reading the computed size and error. Save it as
+        <code>demo/calibrated_stereo_demo.mp4</code>.
+      </p>
+      <video controls>
+        <source src="demo/calibrated_stereo_demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Q2: Uncalibrated stereo (handwritten only) -->
+    <div class="card">
+      <h2>Q2 – Uncalibrated Stereo Object-Size Estimation (Handwritten)</h2>
+      <p>
+        We derive how to estimate object dimensions using <strong>uncalibrated stereo</strong>:
+      </p>
+      <ul>
+        <li>Estimate the fundamental matrix <code>F</code> from point correspondences.</li>
+        <li>Use the epipolar constraint <code>x'ᵀ F x = 0</code>.</li>
+        <li>Recover projective / metric structure up to scale and infer relative object dimensions.</li>
+        <li>Fix scale with a known reference length to obtain absolute sizes.</li>
+      </ul>
+      <p class="note">
+        This is <strong>handwritten derivation only</strong>. Scan your pages and save them as
+        <code>notes/uncalibrated_page1.jpg</code>, <code>notes/uncalibrated_page2.jpg</code>, etc.
+      </p>
+      <div class="image-row">
+        <img src="notes/uncalibrated_page1.jpg" alt="Uncalibrated stereo derivation page 1 (placeholder)">
+        <img src="notes/uncalibrated_page2.jpg" alt="Uncalibrated stereo derivation page 2 (placeholder)">
+        <img src="notes/uncalibrated_page3.jpg" alt="Uncalibrated stereo derivation page 3 (placeholder)">
+      </div>
+    </div>
+
+    <!-- Q3: Pose & hand tracking -->
+    <div class="card">
+      <h2>Q3 – Real-Time Pose Estimation and Hand Tracking</h2>
+      <p>
+        This part uses a Python script (<code>code/pose_hand_tracking.py</code>) with
+        <strong>MediaPipe</strong> to track both full-body pose and hand landmarks in real time.
+        The script:
+      </p>
+      <ul>
+        <li>Reads frames from the webcam (or a recorded video).</li>
+        <li>Draws the detected pose skeleton and hand landmarks on the video.</li>
+        <li>Logs numeric keypoints into CSV files for pose and hands.</li>
+      </ul>
+
+      <h3>Demo Video</h3>
+      <p class="note">
+        The video below is a screen recording of the real-time pose and hand tracking program running.
+        Place your recording as <code>demo/module7_pose_hand_demo.mp4</code>.
+      </p>
+      <video controls>
+        <source src="demo/module7_demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <h3 style="margin-top: 1rem;">Example CSV Outputs</h3>
+      <p class="note">
+        The CSV files contain, for each frame and each landmark, the landmark index and its coordinates.
+        For pose landmarks, we include <code>visibility</code>. For hands, we include a
+        <code>hand_label</code> (Left/Right).
+      </p>
+      <ul>
+        <li><a href="csv/pose_keypoints.csv" target="_blank">csv/pose_keypoints.csv</a></li>
+        <li><a href="csv/hand_keypoints.csv" target="_blank">csv/hand_keypoints.csv</a></li>
+      </ul>
+      <p class="note">
+        In the written report, explain what each column means:
+        <code>frame_id</code>, <code>landmark_id</code>, <code>x</code>, <code>y</code>, <code>z</code>,
+        <code>visibility</code>, <code>hand_label</code>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    Module 7 – Stereo Size Estimation &amp; Pose/Hand Tracking · Standalone Webpage
+  </footer>
+
+  <!-- Q1 interactive logic -->
+  <script>
+    const leftInput = document.getElementById("leftImageInput");
+    const rightInput = document.getElementById("rightImageInput");
+    const leftCanvas = document.getElementById("leftCanvas");
+    const rightCanvas = document.getElementById("rightCanvas");
+    const leftCtx = leftCanvas.getContext("2d");
+    const rightCtx = rightCanvas.getContext("2d");
+
+    let leftImg = null;
+    let rightImg = null;
+
+    let leftTop = null;
+    let leftBottom = null;
+    let rightTop = null;
+
+    function setQ1Status(msg) {
+      document.getElementById("q1Status").textContent = "Status: " + msg;
+    }
+
+    function loadImageToCanvas(file, canvas, ctx, which) {
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        if (which === "left") {
+          leftImg = img;
+          leftTop = leftBottom = null;
+        } else {
+          rightImg = img;
+          rightTop = null;
+        }
+        setQ1Status("Images loaded. Click points as instructed.");
+      };
+      img.src = url;
+    }
+
+    leftInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      loadImageToCanvas(file, leftCanvas, leftCtx, "left");
+    });
+
+    rightInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      loadImageToCanvas(file, rightCanvas, rightCtx, "right");
+    });
+
+    leftCanvas.addEventListener("click", (e) => {
+        if (!leftImg) return;
+
+        const rect = leftCanvas.getBoundingClientRect();
+
+        const scaleX = leftCanvas.width / rect.width;
+        const scaleY = leftCanvas.height / rect.height;
+
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+
+        if (!leftTop) {
+          leftTop = { x, y };
+        } else if (!leftBottom) {
+          leftBottom = { x, y };
+        } else {
+          leftTop = { x, y };
+          leftBottom = null;
+        }
+
+        leftCtx.clearRect(0, 0, leftCanvas.width, leftCanvas.height);
+        leftCtx.drawImage(leftImg, 0, 0);
+
+        if (leftTop) drawPoint(leftCtx, leftTop.x, leftTop.y, "Top");
+        if (leftBottom) {
+          drawPoint(leftCtx, leftBottom.x, leftBottom.y, "Bottom");
+          drawLine(leftCtx, leftTop, leftBottom);
+        }
+      });
+
+
+    rightCanvas.addEventListener("click", (e) => {
+        if (!rightImg) return;
+
+        const rect = rightCanvas.getBoundingClientRect();
+
+        const scaleX = rightCanvas.width / rect.width;
+        const scaleY = rightCanvas.height / rect.height;
+
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+
+        rightTop = { x, y };
+
+        rightCtx.clearRect(0, 0, rightCanvas.width, rightCanvas.height);
+        rightCtx.drawImage(rightImg, 0, 0);
+        drawPoint(rightCtx, rightTop.x, rightTop.y, "Top");
+      });
+
+
+    function drawPoint(ctx, x, y, label) {
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.fillStyle = "yellow";
+      ctx.font = "12px Arial";
+      ctx.fillText(label, x + 6, y - 6);
+    }
+
+    function drawLine(ctx, p1, p2) {
+      ctx.strokeStyle = "lime";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    }
+
+    document.getElementById("resetQ1Btn").addEventListener("click", () => {
+      leftTop = leftBottom = rightTop = null;
+      if (leftImg) {
+        leftCtx.clearRect(0, 0, leftCanvas.width, leftCanvas.height);
+        leftCtx.drawImage(leftImg, 0, 0);
+      }
+      if (rightImg) {
+        rightCtx.clearRect(0, 0, rightCanvas.width, rightCanvas.height);
+        rightCtx.drawImage(rightImg, 0, 0);
+      }
+      setQ1Status("Points reset. Click again as instructed.");
+    });
+
+    document.getElementById("computeBtn").addEventListener("click", () => {
+      const B = parseFloat(document.getElementById("baselineInput").value);
+      const f_mm = parseFloat(document.getElementById("focalInput").value);
+      const sensor_mm = parseFloat(document.getElementById("sensorWidthInput").value);
+      const X_true = parseFloat(document.getElementById("trueSizeInput").value);
+
+      if (!leftImg || !rightImg) {
+        alert("Please upload both left and right images.");
+        return;
+      }
+      if (!leftTop || !leftBottom || !rightTop) {
+        alert("Please click top & bottom on the left image, and top on the right image.");
+        return;
+      }
+      if (isNaN(B) || isNaN(f_mm) || isNaN(sensor_mm)) {
+        alert("Please enter valid stereo parameters (B, f, sensor width).");
+        return;
+      }
+
+      const imageWidthPx = leftCanvas.width;
+      const f_px = f_mm * (imageWidthPx / sensor_mm);
+
+      const d = leftTop.x - rightTop.x;
+      if (Math.abs(d) < 1e-3) {
+        alert("Disparity is near zero. Make sure the top points are clicked at different x-positions.");
+        return;
+      }
+
+      const dx = leftBottom.x - leftTop.x;
+      const dy = leftBottom.y - leftTop.y;
+      const x_pixels = Math.sqrt(dx * dx + dy * dy);
+
+      const Z = (f_px * B) / d;  // cm
+      const X_est = Z * x_pixels / f_px;
+
+      let errorStr = "–";
+      if (!isNaN(X_true) && X_true > 0) {
+        const err = Math.abs(X_est - X_true) / X_true * 100;
+        errorStr = err.toFixed(2) + " %";
+      }
+
+      // Fill table
+      document.getElementById("valB").textContent = B.toFixed(2);
+      document.getElementById("valFmm").textContent = f_mm.toFixed(2);
+      document.getElementById("valSensor").textContent = sensor_mm.toFixed(2);
+      document.getElementById("valImgWidth").textContent = imageWidthPx.toFixed(0);
+      document.getElementById("valFpx").textContent = f_px.toFixed(1);
+      document.getElementById("valDisparity").textContent = d.toFixed(1);
+      document.getElementById("valZ").textContent = Z.toFixed(2);
+      document.getElementById("valXPixels").textContent = x_pixels.toFixed(1);
+      document.getElementById("valXcm").textContent = X_est.toFixed(2);
+      document.getElementById("valTrue").textContent = isNaN(X_true) ? "–" : X_true.toFixed(2);
+      document.getElementById("valError").textContent = errorStr;
+
+      setQ1Status("Computed stereo depth and object size. See table above.");
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Module 3 - Image Processing</title>
+</head>
+
+<body>
+
+    <h1>Module 3 — Image Processing Tasks</h1>
+
+    <label>Select Dataset:</label>
+    <select id="dataset_select">
+        <option value="original">Original</option>
+        <option value="aruco">ArUco</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="go('gradients')">Gradient</button>
+    <button onclick="go('laplacian')">LoG</button>
+    <button onclick="go('edge')">Edges</button>
+    <button onclick="go('corner')">Corners</button>
+    <button onclick="go('boundary_detection')">Boundary</button>
+    <button onclick="go('aruco_segmentation')">ArUco</button>
+    <button onclick="go('sam2')">SAM2</button>
+
+    <script>
+        function go(task) {
+            let dataset = document.getElementById("dataset_select").value;
+            window.location = `/process/${task}?dataset=${dataset}`;
+        }
+    </script>
+
+    <br><br>
+    <a href="/">Back to Home</a>
+
+</body>
+
+</html>

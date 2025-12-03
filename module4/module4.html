@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 4 – Image Stitching</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: #222;
+      color: #fff;
+      padding: 1rem 2rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    header p {
+      margin: 0.3rem 0 0;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    main {
+      padding: 1.5rem 2rem;
+    }
+
+    .task-switch {
+      margin-bottom: 1rem;
+    }
+
+    .task-switch button {
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    .task-switch button.active {
+      background: #ff5a5f;
+      color: #fff;
+    }
+
+    .task-section {
+      display: none;
+    }
+
+    .task-section.active {
+      display: block;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .subtitle {
+      font-weight: bold;
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .image-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .image-row img {
+      max-width: 220px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Module 4 – Image Stitching</h1>
+    <p>Task 1 &amp; Task 2 – Input and Output Images</p>
+  </header>
+
+  <main>
+    <p>
+      This page shows the results for <strong>Module 4</strong> of the assignment.
+      Use the buttons below to switch between <strong>Task 1</strong> and <strong>Task 2</strong>.
+    </p>
+
+    <!-- Task buttons -->
+    <div class="task-switch">
+      <button id="btn-task1" class="active" onclick="showTask('task1')">Task 1</button>
+      <button id="btn-task2" onclick="showTask('task2')">Task 2</button>
+    </div>
+
+    <!-- TASK 1 SECTION -->
+    <section id="task1" class="task-section active">
+      <div class="card">
+        <h2>Task 1 – Basic Image Stitching</h2>
+        <p>
+          In Task 1, overlapping images are stitched together into a single panorama.
+          Below are the <strong>input images</strong> and the final <strong>stitched output</strong>.
+        </p>
+
+        <div class="subtitle">Input Images (images_task1)</div>
+        <div class="image-row">
+          <img src="images_task1/img1.jpg" alt="Task 1 Input Image 1">
+          <img src="images_task1/img2.jpg" alt="Task 1 Input Image 2">
+          <img src="images_task1/img3.jpg" alt="Task 1 Input Image 3">
+          <img src="images_task1/img4.jpg" alt="Task 1 Input Image 4">
+        </div>
+
+        <div class="subtitle">Output Panorama (outputs_task1)</div>
+        <div class="image-row">
+          <img src="outputs_task1/stitched_task1.jpg" alt="Task 1 Stitched Output">
+        </div>
+
+        <p class="note">
+          Note: All images are loaded from the folders
+          <code>images_task1/</code> and <code>outputs_task1/</code>
+          in the <code>image_stitching_separated_tasks</code> directory.
+        </p>
+      </div>
+    </section>
+
+    <!-- TASK 2 SECTION -->
+    <section id="task2" class="task-section">
+      <div class="card">
+        <h2>Task 2 – SIFT &amp; Custom Feature Matching</h2>
+        <p>
+          Task 2 compares a custom SIFT + RANSAC-based pipeline with OpenCV's SIFT implementation.
+          We visualize feature matches and show the final stitched panoramas.
+        </p>
+
+        <div class="subtitle">Input Images (images_task2)</div>
+        <div class="image-row">
+          <img src="images_task2/img1.jpg" alt="Task 2 Input Image 1">
+          <img src="images_task2/img2.jpg" alt="Task 2 Input Image 2">
+          <img src="images_task2/img3.jpg" alt="Task 2 Input Image 3">
+          <img src="images_task2/img4.jpg" alt="Task 2 Input Image 4">
+        </div>
+
+        <div class="subtitle">Feature Matches – Custom Implementation</div>
+        <div class="image-row">
+          <img src="outputs_task2/matches_custom_1.jpg" alt="Custom Matches 1">
+          <img src="outputs_task2/matches_custom_2.jpg" alt="Custom Matches 2">
+          <img src="outputs_task2/matches_custom_3.jpg" alt="Custom Matches 3">
+        </div>
+
+        <div class="subtitle">Feature Matches – OpenCV SIFT</div>
+        <div class="image-row">
+          <img src="outputs_task2/matches_opencv_1.jpg" alt="OpenCV Matches 1">
+          <img src="outputs_task2/matches_opencv_2.jpg" alt="OpenCV Matches 2">
+          <img src="outputs_task2/matches_opencv_3.jpg" alt="OpenCV Matches 3">
+        </div>
+
+        <div class="subtitle">Stitched Panoramas</div>
+        <div class="image-row">
+          <img src="outputs_task2/stitched_custom_task2.jpg" alt="Custom Stitched Panorama">
+          <img src="outputs_task2/stitched_sift_task2.jpg" alt="SIFT Stitched Panorama">
+          <img src="outputs_task2/stitched_sift_task2_custom.jpg" alt="SIFT + Custom Panorama">
+          <img src="outputs_task2/stitched_sift_task2_opencv.jpg" alt="SIFT + OpenCV Panorama">
+        </div>
+
+        <p class="note">
+          Note: All images are loaded from the folders
+          <code>images_task2/</code> and <code>outputs_task2/</code>
+          in the <code>image_stitching_separated_tasks</code> directory.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Module 4 – Image Stitching &bull; CSC Assignment
+  </footer>
+
+  <script>
+    function showTask(taskId) {
+      // Hide both task sections
+      document.querySelectorAll(".task-section").forEach(sec => {
+        sec.classList.remove("active");
+      });
+
+      // Remove active from both buttons
+      document.getElementById("btn-task1").classList.remove("active");
+      document.getElementById("btn-task2").classList.remove("active");
+
+      // Show selected task
+      document.getElementById(taskId).classList.add("active");
+
+      // Activate correct button
+      if (taskId === "task1") {
+        document.getElementById("btn-task1").classList.add("active");
+      } else {
+        document.getElementById("btn-task2").classList.add("active");
+      }
+    }
+  </script>
+</body>
+</html>

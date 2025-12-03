@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 5–6 – Motion & Object Tracking</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+    header { background: #222; color: #fff; padding: 1rem 2rem; }
+    header h1 { margin: 0; font-size: 1.6rem; }
+    header p { margin: 0.3rem 0 0; font-size: 0.95rem; color: #ddd; }
+    main { padding: 1.5rem 2rem; }
+    .task-switch { margin: 1rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .task-switch button {
+      border: none; padding: 0.5rem 1rem; cursor: pointer;
+      background: #ccc; border-radius: 4px; font-size: 0.9rem;
+    }
+    .task-switch button.active { background: #ff5a5f; color: #fff; }
+    .module5-task { display: none; }
+    .module5-task.active { display: block; }
+    .card {
+      background: #fff; border-radius: 6px; padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 1.5rem;
+    }
+    .card h2, .card h3 { margin-top: 0; }
+    .subtitle { font-weight: bold; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+    .image-row {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .image-row img, .image-row video {
+      max-width: 260px; border-radius: 4px; border: 1px solid #ccc;
+    }
+    .note { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
+    footer { text-align: center; padding: 1rem; font-size: 0.85rem; color: #666; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Module 5–6 – Motion &amp; Object Tracking</h1>
+    <p>Q1: Motion Tracking Theory · Q2: Real-time Object Tracking (Marker, Markerless, SAM2)</p>
+    <div class="card" style="margin-bottom:20px;">
+      <h3>Demo Video</h3>
+      <video controls width="600" style="border-radius:10px; border:1px solid #ccc;">
+        <source src="module5_6_demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </header>
+
+  <main>
+    <p>
+      This standalone page presents results for <strong>Module 5–6</strong>:
+      (1) motion tracking derivations (notes only) and
+      (2) real-time object tracking using a marker, markerless methods,
+      and SAM2-based segmentation. Python code is provided separately in the
+      <code>code/</code> folder and is not displayed on this page.
+    </p>
+
+    <div class="task-switch">
+      <button id="m5-btn-q1" class="active"
+              onclick="showModule56Task('m5-q1')">
+        Q1 – Motion Notes
+      </button>
+      <button id="m5-btn-marker"
+              onclick="showModule56Task('m5-marker')">
+        Q2(i) – Marker-based Tracker
+      </button>
+      <button id="m5-btn-markerless"
+              onclick="showModule56Task('m5-markerless')">
+        Q2(ii) – Markerless Tracker
+      </button>
+      <button id="m5-btn-sam2"
+              onclick="showModule56Task('m5-sam2')">
+        Q2(iii) – SAM2 Tracker
+      </button>
+    </div>
+
+    <div id="m5-q1" class="module5-task active">
+      <div class="card">
+        <h3>Q1 – Motion Tracking Derivations (Notes Only)</h3>
+        <p>This section shows handwritten/typed notes for:</p>
+        <ul>
+          <li>(a) Derivation of the motion tracking equation and motion estimates for two consecutive frames.</li>
+          <li>(b) Lucas–Kanade procedure for affine motion u(x,y) = a1x + b1y + c1, v(x,y) = a2x + b2y + c2.</li>
+        </ul>
+        <div class="subtitle">Uploaded Note Pages (notes/)</div>
+        <div class="image-row">
+          <img src="notes/q1a_page1.jpg" alt="Q1a notes page 1">
+          <img src="notes/q1a_page2.jpg" alt="Q1a notes page 2">
+          <img src="notes/q1a_page3.jpg" alt="Q1a notes page 3">
+          <img src="notes/q1b_page1.jpg" alt="Q1b notes page 1">
+          <img src="notes/q1b_page2.jpg" alt="Q1b notes page 2">
+        </div>
+        <p class="note">
+          Place your scanned derivations in the <code>notes/</code> folder
+          (q1_page1.jpg, q1_page2.jpg, ...). Q1 is not implemented in code; it is documented as images only.
+        </p>
+      </div>
+    </div>
+
+    <div id="m5-marker" class="module5-task">
+      <div class="card">
+        <h3>Q2(i) – Real-time Object Tracker using Marker</h3>
+        <p>
+          This tracker uses a visual marker (e.g., QR code / AprilTag / ArUco) to localize and track
+          an object in real time. The marker pose is detected in each frame and used as the object’s position.
+        </p>
+        <div class="subtitle">Demo Media (marker_tracker/)</div>
+        <div class="image-row">
+          <video src="marker_tracker/marker_input.mp4" controls></video>
+          
+          <p>
+            Output video:
+            <a href="marker_tracker/marker_tracked.avi" target="_blank">
+              Click here to open marker_tracked.avi
+            </a>
+          </p>
+
+
+        </div>
+        <p class="note">
+          Put your input and tracked demonstration videos in <code>marker_tracker/</code>
+          and update filenames if needed.
+        </p>
+      </div>
+    </div>
+
+    <div id="m5-markerless" class="module5-task">
+      <div class="card">
+        <h3>Q2(ii) – Real-time Markerless Tracker</h3>
+        <p>
+          This version tracks the object without any explicit marker. It can use KLT feature tracking,
+          template matching, or color-based tracking to follow the object across frames.
+        </p>
+        <div class="subtitle">Demo Media (markerless_tracker/)</div>
+        <div class="image-row">
+          <video src="markerless_tracker/markerless_input.mp4" controls></video>
+        <p>
+          Output video:
+          <a href="markerless_tracker/markerless_tracked.avi" target="_blank">
+            Click here to open marker_tracked.avi
+          </a>
+        </p>
+        </div>
+        <p class="note">
+          Put your markerless tracking videos in <code>markerless_tracker/</code> and adjust filenames if needed.
+        </p>
+      </div>
+    </div>
+
+    <div id="m5-sam2" class="module5-task">
+      <div class="card">
+        <h3>Q2(iii) SAM2-based Segmentation Tracking</h3>
+        
+        <p><b>Input Video:</b></p>
+        <video src="sam2_tracker/sam2_input.mp4" controls width="500"></video>
+        
+        <p><b>Masks File:</b></p>
+        <a href="sam2_tracker/sam2_masks.npz" target="_blank">
+          Click here to download sam2_masks.npz
+        </a>
+        
+        <p><b>Output Video:</b></p>
+        <a href="sam2_tracker/sam2_tracked.avi" target="_blank">
+          Click here to open sam2_tracked.avi
+        </a>
+</div>
+        <p class="note">
+          Place your SAM2 input/output videos in <code>sam2_tracker/</code>. The NPZ file with masks
+          (sam2_masks.npz) is used by the Python script and not shown directly on the page.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Module 5–6 – Motion &amp; Object Tracking · Standalone Webpage
+  </footer>
+
+  <script>
+    function showModule56Task(id) {
+      document.querySelectorAll(".module5-task").forEach(t => t.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+
+      document.getElementById("m5-btn-q1").classList.remove("active");
+      document.getElementById("m5-btn-marker").classList.remove("active");
+      document.getElementById("m5-btn-markerless").classList.remove("active");
+      document.getElementById("m5-btn-sam2").classList.remove("active");
+
+      if (id === "m5-q1") {
+        document.getElementById("m5-btn-q1").classList.add("active");
+      } else if (id === "m5-marker") {
+        document.getElementById("m5-btn-marker").classList.add("active");
+      } else if (id === "m5-markerless") {
+        document.getElementById("m5-btn-markerless").classList.add("active");
+      } else if (id === "m5-sam2") {
+        document.getElementById("m5-btn-sam2").classList.add("active");
+      }
+    }
+  </script>
+</body>
+</html>

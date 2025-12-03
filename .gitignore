@@ -1,0 +1,5 @@
+*.mp4
+*.dll
+*.npz
+*.pyd
+mp_env/

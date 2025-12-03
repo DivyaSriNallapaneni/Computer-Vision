@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Module 1 – Real-World Dimension Estimator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .panel {
+      flex: 1 1 320px;
+      min-width: 300px;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      /*max-width: 100%;*/
+    }
+
+    label {
+      display: block;
+      margin-top: 8px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      max-width: 220px;
+    }
+
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    #result {
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #aaa;
+      padding: 6px 8px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+
+    video {
+      max-width: 100%;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Module 1 – Real-World Dimension from a Single Image</h1>
+
+  <!-- Demo Video Section -->
+  <section id="demo-video">
+    <h2>Demo Video – Module 1 in Action</h2>
+    <p>
+      This video shows the Module 1 web application estimating the real-world
+      length of an object from a single calibrated image, using the perspective
+      projection relation <code>X = Z · x / f</code>.
+    </p>
+    <!-- Put your recorded demo here: save as videos/module1_demo.mp4 -->
+    <video controls>
+      <source src="videos/module1_demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <!-- Interactive Web App -->
+  <section id="app">
+    <h2>Interactive Web Application</h2>
+    <p>
+      Upload an image of the object (e.g., a cup), enter the camera parameters,
+      then click <b>two points</b> on the object in the image (for example,
+      the left and right edges of the cup rim). The app estimates the real-world
+      length based on the distance from camera to object, focal length, and sensor width.
+    </p>
+
+    <div class="container">
+      <div class="panel">
+        <h3>Inputs</h3>
+
+        <label>
+          Scene Image:
+          <input type="file" id="imageInput" accept="image/*">
+        </label>
+
+        <label>
+          Distance from camera to object (cm):
+          <input type="number" id="distanceInput" value="50" step="0.1">
+        </label>
+
+        <label>
+          Focal length (mm):
+          <input type="number" id="focalInput" value="4.15" step="0.01">
+        </label>
+
+        <label>
+          Sensor width (mm):
+          <input type="number" id="sensorWidthInput" value="6.4" step="0.01">
+        </label>
+
+        <label>
+          <b>True object size (cm) for evaluation</b> (e.g., cup rim width):
+          <input type="number" id="trueSizeInput" value="8.5" step="0.01">
+        </label>
+
+        <p style="margin-top:10px;">
+          <button id="resetPointsBtn">Reset Points</button>
+        </p>
+
+        <div id="status">Status: Upload an image to begin.</div>
+        <div id="result"></div>
+
+        <p style="margin-top:10px;">
+          <button id="addEvalBtn" disabled>
+            Add this result to evaluation table
+          </button>
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3>Image (click two points on the object)</h3>
+        <canvas id="imageCanvas"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Evaluation Section -->
+  <section id="evaluation">
+    <h2>Evaluation – Same Cup at Different Distances</h2>
+    <p>
+      For evaluation, we used a single object (a cup) and measured its true width
+      (e.g., rim-to-rim) using a ruler. We then captured images at 10 different
+      camera distances and used this web app to estimate the length from each image.
+      Each time we measure, we can click
+      <b>"Add this result to evaluation table"</b> to automatically add a row below.
+    </p>
+    <p>
+      Error is computed as:
+      <code>Error (%) = |Predicted − True| / True × 100</code>.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Distance Z (cm)</th>
+          <th>True Size (cm)</th>
+          <th>Predicted Size (cm)</th>
+          <th>Error (%)</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="evalTableBody">
+        <tr data-placeholder="true">
+          <td colspan="6">No measurements added yet. Run the app and click "Add this result to evaluation table".</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

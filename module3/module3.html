@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Module – Object Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: #fff;
+            padding: 1rem 2rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.6rem;
+        }
+
+        header p {
+            margin: 0.3rem 0 0;
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+
+        main {
+            padding: 1.5rem 2rem;
+        }
+
+        .task-switch {
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .task-switch button {
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            background: #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .task-switch button.active {
+            background: #ff5a5f;
+            color: #fff;
+        }
+
+        .task-section {
+            display: none;
+        }
+
+        .task-section.active {
+            display: block;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 6px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .subtitle {
+            font-weight: bold;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .image-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-row img {
+            max-width: 160px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Object Analysis – Image Processing Module</h1>
+        <p>Segmentation, Boundary Detection, Edges &amp; Corners, Gradients, and Laplacian of Gaussian</p>
+    </header>
+
+    <main>
+        <p>
+            This page shows the results of the object analysis project using five scripts:
+            <strong>Segmentation</strong>, <strong>Boundary Detection</strong>,
+            <strong>Edge &amp; Corner Detection</strong>, <strong>Gradients</strong>,
+            and <strong>Laplacian of Gaussian</strong>.
+            Use the buttons below to switch between them.
+        </p>
+
+        <!-- 5 BUTTONS (one per script) -->
+        <div class="task-switch">
+            <button id="btn-segmentation" class="active" onclick="showTask('segmentation')">
+                Segmentation (ArUco)
+            </button>
+            <button id="btn-boundary" onclick="showTask('boundary')">
+                Boundary Detection
+            </button>
+            <button id="btn-edge-corner" onclick="showTask('edge-corner')">
+                Edge &amp; Corner Detection
+            </button>
+            <button id="btn-gradients" onclick="showTask('gradients')">
+                Gradients
+            </button>
+            <button id="btn-laplacian" onclick="showTask('laplacian')">
+                Laplacian of Gaussian
+            </button>
+        </div>
+
+        <!-- 1️⃣ SEGMENTATION -->
+        <section id="module3-demo">
+            <h2>Module 3 – Demo Video</h2>
+            <p>
+                This video demonstrates the working of the Module 3 webpage, including
+                loading images, running the processing scripts, and visualizing the results.
+            </p>
+        </section>
+
+        <section id="segmentation" class="task-section active">
+            <div class="card">
+                <h2>Segmentation – ArUco Markers (aruco_segmentation.py)</h2>
+                <p>
+                    This script segments the ArUco marker images. Each input <code>objN.jpg</code>
+                    has a corresponding <code>objN_segmented.jpg</code> output.
+                </p>
+
+                <div class="subtitle">Input Images (static/images_aruco)</div>
+                <div class="image-row">
+                    <img src="static/images_aruco/obj1.jpg" alt="obj1">
+                    <img src="static/images_aruco/obj2.jpg" alt="obj2">
+                    <img src="static/images_aruco/obj3.jpg" alt="obj3">
+                    <img src="static/images_aruco/obj4.jpg" alt="obj4">
+                    <img src="static/images_aruco/obj5.jpg" alt="obj5">
+                    <img src="static/images_aruco/obj6.jpg" alt="obj6">
+                    <img src="static/images_aruco/obj7.jpg" alt="obj7">
+                    <img src="static/images_aruco/obj8.jpg" alt="obj8">
+                    <img src="static/images_aruco/obj9.jpg" alt="obj9">
+                    <img src="static/images_aruco/obj10.jpg" alt="obj10">
+                </div>
+
+                <div class="subtitle">Segmented Outputs (static/results)</div>
+                <div class="image-row">
+                    <img src="static/results/obj1_segmented.jpg" alt="obj1 segmented">
+                    <img src="static/results/obj2_segmented.jpg" alt="obj2 segmented">
+                    <img src="static/results/obj3_segmented.jpg" alt="obj3 segmented">
+                    <img src="static/results/obj4_segmented.jpg" alt="obj4 segmented">
+                    <img src="static/results/obj5_segmented.jpg" alt="obj5 segmented">
+                    <img src="static/results/obj6_segmented.jpg" alt="obj6 segmented">
+                    <img src="static/results/obj7_segmented.jpg" alt="obj7 segmented">
+                    <img src="static/results/obj8_segmented.jpg" alt="obj8 segmented">
+                    <img src="static/results/obj9_segmented.jpg" alt="obj9 segmented">
+                    <img src="static/results/obj10_segmented.jpg" alt="obj10 segmented">
+                </div>
+
+                <p class="note">
+                    Inputs: <code>static/images_aruco/obj1.jpg</code> – <code>obj10.jpg</code><br>
+                    Outputs: <code>static/results/obj1_segmented.jpg</code> – <code>obj10_segmented.jpg</code>
+                </p>
+            </div>
+        </section>
+
+        <!-- 2️⃣ BOUNDARY DETECTION -->
+        <section id="boundary" class="task-section">
+            <div class="card">
+                <h2>Boundary Detection (boundary_detection.py)</h2>
+                <p>
+                    This script performs boundary/edge detection on the original object images.
+                </p>
+
+                <div class="subtitle">Input Images (static/images_original)</div>
+                <div class="image-row">
+                    <img src="static/images_original/img1.jpg" alt="img1">
+                    <img src="static/images_original/img2.jpg" alt="img2">
+                    <img src="static/images_original/img3.jpg" alt="img3">
+                    <img src="static/images_original/img4.jpg" alt="img4">
+                    <img src="static/images_original/img5.jpg" alt="img5">
+                    <img src="static/images_original/img6.jpg" alt="img6">
+                    <img src="static/images_original/img7.jpg" alt="img7">
+                    <img src="static/images_original/img8.jpg" alt="img8">
+                    <img src="static/images_original/img9.jpg" alt="img9">
+                    <img src="static/images_original/img10.jpg" alt="img10">
+                </div>
+
+                <div class="subtitle">Boundary / Edge Outputs (static/results)</div>
+                <div class="image-row">
+                    <img src="static/results/img1_edges.jpg" alt="img1 edges">
+                    <img src="static/results/img2_edges.jpg" alt="img2 edges">
+                    <img src="static/results/img3_edges.jpg" alt="img3 edges">
+                    <img src="static/results/img4_edges.jpg" alt="img4 edges">
+                    <img src="static/results/img5_edges.jpg" alt="img5 edges">
+                    <img src="static/results/img6_edges.jpg" alt="img6 edges">
+                    <img src="static/results/img7_edges.jpg" alt="img7 edges">
+                    <img src="static/results/img8_edges.jpg" alt="img8 edges">
+                    <img src="static/results/img9_edges.jpg" alt="img9 edges">
+                    <img src="static/results/img10_edges.jpg" alt="img10 edges">
+                </div>
+
+                <p class="note">
+                    Outputs follow the naming pattern <code>imgN_edges.jpg</code>
+                    in <code>static/results/</code> for N = 1..10.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3️⃣ EDGE & CORNER DETECTION -->
+        <section id="edge-corner" class="task-section">
+            <div class="card">
+                <h2>Edge &amp; Corner Detection (edge_corner.py)</h2>
+                <p>
+                    This script focuses on detecting corner features on each original image.
+                </p>
+
+                <div class="subtitle">Input Images (static/images_original)</div>
+                <div class="image-row">
+                    <img src="static/images_original/img1.jpg" alt="img1">
+                    <img src="static/images_original/img2.jpg" alt="img2">
+                    <img src="static/images_original/img3.jpg" alt="img3">
+                    <img src="static/images_original/img4.jpg" alt="img4">
+                    <img src="static/images_original/img5.jpg" alt="img5">
+                    <img src="static/images_original/img6.jpg" alt="img6">
+                    <img src="static/images_original/img7.jpg" alt="img7">
+                    <img src="static/images_original/img8.jpg" alt="img8">
+                    <img src="static/images_original/img9.jpg" alt="img9">
+                    <img src="static/images_original/img10.jpg" alt="img10">
+                </div>
+
+                <div class="subtitle">Corner Detection Outputs (static/results)</div>
+                <div class="image-row">
+                    <img src="static/results/img1_corners.jpg" alt="img1 corners">
+                    <img src="static/results/img2_corners.jpg" alt="img2 corners">
+                    <img src="static/results/img3_corners.jpg" alt="img3 corners">
+                    <img src="static/results/img4_corners.jpg" alt="img4 corners">
+                    <img src="static/results/img5_corners.jpg" alt="img5 corners">
+                    <img src="static/results/img6_corners.jpg" alt="img6 corners">
+                    <img src="static/results/img7_corners.jpg" alt="img7 corners">
+                    <img src="static/results/img8_corners.jpg" alt="img8 corners">
+                    <img src="static/results/img9_corners.jpg" alt="img9 corners">
+                    <img src="static/results/img10_corners.jpg" alt="img10 corners">
+                </div>
+
+                <p class="note">
+                    Corner outputs are stored as <code>imgN_corners.jpg</code> in
+                    <code>static/results/</code>.
+                </p>
+            </div>
+        </section>
+
+        <!-- 4️⃣ GRADIENTS -->
+        <section id="gradients" class="task-section">
+            <div class="card">
+                <h2>Gradients (gradients.py)</h2>
+                <p>
+                    This script computes gradient magnitude (and angle) for each original image.
+                    Below we show the gradient magnitude outputs.
+                </p>
+
+                <div class="subtitle">Input Images (static/images_original)</div>
+                <div class="image-row">
+                    <img src="static/images_original/img1.jpg" alt="img1">
+                    <img src="static/images_original/img2.jpg" alt="img2">
+                    <img src="static/images_original/img3.jpg" alt="img3">
+                    <img src="static/images_original/img4.jpg" alt="img4">
+                    <img src="static/images_original/img5.jpg" alt="img5">
+                    <img src="static/images_original/img6.jpg" alt="img6">
+                    <img src="static/images_original/img7.jpg" alt="img7">
+                    <img src="static/images_original/img8.jpg" alt="img8">
+                    <img src="static/images_original/img9.jpg" alt="img9">
+                    <img src="static/images_original/img10.jpg" alt="img10">
+                </div>
+
+                <div class="subtitle">Gradient Magnitude Outputs (static/results)</div>
+                <div class="image-row">
+                    <img src="static/results/img1_gradient_magnitude.jpg" alt="img1 grad mag">
+                    <img src="static/results/img2_gradient_magnitude.jpg" alt="img2 grad mag">
+                    <img src="static/results/img3_gradient_magnitude.jpg" alt="img3 grad mag">
+                    <img src="static/results/img4_gradient_magnitude.jpg" alt="img4 grad mag">
+                    <img src="static/results/img5_gradient_magnitude.jpg" alt="img5 grad mag">
+                    <img src="static/results/img6_gradient_magnitude.jpg" alt="img6 grad mag">
+                    <img src="static/results/img7_gradient_magnitude.jpg" alt="img7 grad mag">
+                    <img src="static/results/img8_gradient_magnitude.jpg" alt="img8 grad mag">
+                    <img src="static/results/img9_gradient_magnitude.jpg" alt="img9 grad mag">
+                    <img src="static/results/img10_gradient_magnitude.jpg" alt="img10 grad mag">
+                </div>
+
+                <p class="note">
+                    Additional gradient angle outputs also exist as
+                    <code>imgN_gradient_angle.jpg</code> in <code>static/results/</code>.
+                </p>
+            </div>
+        </section>
+
+        <!-- 5️⃣ LAPLACIAN OF GAUSSIAN -->
+        <section id="laplacian" class="task-section">
+            <div class="card">
+                <h2>Laplacian of Gaussian (laplacian.py)</h2>
+                <p>
+                    This script applies a Laplacian of Gaussian (LoG) filter to highlight
+                    blob-like structures and fine details in the object images.
+                </p>
+
+                <div class="subtitle">Input Images (static/images_original)</div>
+                <div class="image-row">
+                    <img src="static/images_original/img1.jpg" alt="img1">
+                    <img src="static/images_original/img2.jpg" alt="img2">
+                    <img src="static/images_original/img3.jpg" alt="img3">
+                    <img src="static/images_original/img4.jpg" alt="img4">
+                    <img src="static/images_original/img5.jpg" alt="img5">
+                    <img src="static/images_original/img6.jpg" alt="img6">
+                    <img src="static/images_original/img7.jpg" alt="img7">
+                    <img src="static/images_original/img8.jpg" alt="img8">
+                    <img src="static/images_original/img9.jpg" alt="img9">
+                    <img src="static/images_original/img10.jpg" alt="img10">
+                </div>
+
+                <div class="subtitle">LoG Outputs (static/results)</div>
+                <div class="image-row">
+                    <img src="static/results/img1_LoG.jpg" alt="img1 LoG">
+                    <img src="static/results/img2_LoG.jpg" alt="img2 LoG">
+                    <img src="static/results/img3_LoG.jpg" alt="img3 LoG">
+                    <img src="static/results/img4_LoG.jpg" alt="img4 LoG">
+                    <img src="static/results/img5_LoG.jpg" alt="img5 LoG">
+                    <img src="static/results/img6_LoG.jpg" alt="img6 LoG">
+                    <img src="static/results/img7_LoG.jpg" alt="img7 LoG">
+                    <img src="static/results/img8_LoG.jpg" alt="img8 LoG">
+                    <img src="static/results/img9_LoG.jpg" alt="img9 LoG">
+                    <img src="static/results/img10_LoG.jpg" alt="img10 LoG">
+                </div>
+
+                <p class="note">
+                    LoG outputs are stored as <code>imgN_LoG.jpg</code> in
+                    <code>static/results/</code>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Object Analysis – Image Processing Assignment
+    </footer>
+
+    <script>
+        function showTask(id) {
+            // hide all sections
+            document.querySelectorAll(".task-section").forEach(sec => {
+                sec.classList.remove("active");
+            });
+            // remove active from all buttons
+            document
+                .querySelectorAll(".task-switch button")
+                .forEach(btn => btn.classList.remove("active"));
+
+            // show selected section
+            document.getElementById(id).classList.add("active");
+
+            // activate matching button
+            document.getElementById("btn-segmentation").classList.toggle(
+                "active",
+                id === "segmentation"
+            );
+            document.getElementById("btn-boundary").classList.toggle(
+                "active",
+                id === "boundary"
+            );
+            document.getElementById("btn-edge-corner").classList.toggle(
+                "active",
+                id === "edge-corner"
+            );
+            document.getElementById("btn-gradients").classList.toggle(
+                "active",
+                id === "gradients"
+            );
+            document.getElementById("btn-laplacian").classList.toggle(
+                "active",
+                id === "laplacian"
+            );
+        }
+    </script>
+</body>
+
+</html>

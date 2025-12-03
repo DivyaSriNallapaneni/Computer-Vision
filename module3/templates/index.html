@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Analysis Results</title>
+</head>
+<body>
+    <h1>Object Analysis Results</h1>
+    
+    <form method="get" action="/">
+        <label>Select Dataset:</label>
+        <select name="dataset">
+            <option value="original" {% if dataset=='original' %}selected{% endif %}>Original Images</option>
+            <option value="aruco" {% if dataset=='aruco' %}selected{% endif %}>ArUco Images</option>
+        </select>
+        <input type="submit" value="View Results">
+    </form>
+    
+    {% for image in images %}
+        <div style="margin-bottom:20px;">
+            <h3>{{ image }}</h3>
+            <img src="{{ url_for('static', filename='results/' + image) }}" width="400">
+        </div>
+    {% endfor %}
+</body>
+</html>

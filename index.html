@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Processing Project – Modules 1–7</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: #fff;
+            padding: 1rem 2rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        header p {
+            margin: 0.3rem 0 0;
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+
+        nav {
+            background: #333;
+            padding: 0.5rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav button {
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            background: #555;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        nav button.active {
+            background: #ff5a5f;
+        }
+
+        main {
+            padding: 1.5rem 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 6px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2,
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .task-switch {
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .task-switch button {
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            background: #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .task-switch button.active {
+            background: #ff5a5f;
+            color: #fff;
+        }
+
+        .module3-task,
+        .module4-task {
+            display: none;
+        }
+
+        .module3-task.active,
+        .module4-task.active {
+            display: block;
+        }
+
+        .subtitle {
+            font-weight: bold;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .image-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-row img {
+            max-width: 160px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Image Processing Project</h1>
+        <p>Modules 1–7 – Interactive Results Viewer</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="showSection('home')">Home</button>
+        <button class="nav-btn" onclick="showSection('module1')">Module 1</button>
+        <button class="nav-btn" onclick="showSection('module2')">Module 2</button>
+        <button class="nav-btn" onclick="showSection('module3')">Module 3</button>
+        <button class="nav-btn" onclick="showSection('module4')">Module 4</button>
+        <button class="nav-btn" onclick="showSection('module5_6')">Module 5_6</button>
+        
+        <button class="nav-btn" onclick="showSection('module7')">Module 7</button>
+    </nav>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" class="section active">
+            <h2>Home</h2>
+            <p>
+                This website summarizes the results of my Computer Vision assignment.
+                Use the buttons in the navigation bar to open <strong>Modules 1–7</strong>.
+            </p>
+        </section>
+
+    <!-- MODULE 1 -->
+    <section id="module1" class="section">
+        <h2>Module 1 – Real-World Dimension Estimation</h2>
+    
+        <p>
+            Estimate real-world dimensions from a single calibrated image by clicking two points.
+            The full Module 1 application is embedded below.
+        </p>
+    
+        <!-- EMBED MODULE 1 APP -->
+        <iframe src="module1/index.html" style="width:100%; height:900px; border:2px solid #ccc; border-radius:8px;">
+        </iframe>
+    </section>
+
+
+
+        <!-- ===== MODULE 2 SECTION (UPDATED WITH DEMO VIDEO) ===== -->
+        <section id="module2" class="section">
+            <h2>Module 2 – Template Matching & Fourier Transform</h2>
+        
+            <p>
+                Module 2 implements correlation-based template matching, Fourier filtering, and a fully interactive
+                web application that detects objects and blurs them using OpenCV.js.
+                A short demonstration video is included below.
+            </p>
+        
+            <!-- === DEMO VIDEO (Task 1 Web App Demo) === -->
+            <div class="card" style="margin-top:15px; padding:15px;">
+                <h3>Module 2 – Demo Video</h3>
+                <p class="note">This video demonstrates the Template Matching & Blurring Web App in action.</p>
+        
+                <video controls width="650" style="border-radius:10px; border:1px solid #ccc;">
+                    <source src="module2/module2_corr_single_scene/module2_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        
+            <div style="margin-top:20px;">
+                <p class="note">
+                    Click the button below to open the full Module 2 webpage containing Task 1, Task 2 and Task 3.
+                </p>
+                <a href="module2/module2_corr_single_scene/index.html" style="display:inline-block; padding:10px 18px; background:#007bff; color:white; 
+                          border-radius:6px; text-decoration:none;">
+                    Open Module 2 Webpage
+                </a>
+            </div>
+        </section>
+
+
+        <!-- MODULE 3 – OBJECT ANALYSIS (5 scripts) -->
+
+        <section id="module3" class="section">
+            <h2>Module 3 – Object Analysis</h2>
+            <!-- ======== MODULE 3 DEMO VIDEO ======== -->
+            <div class="card" style="margin-bottom:20px;">
+                <h3>Demo Video</h3>
+            
+                <video controls width="600" style="border-radius:10px; border:1px solid #ccc;">
+                    <source src="module3\module3_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p>
+                This module analyzes object images using five scripts:
+                <strong>Segmentation</strong>, <strong>Boundary Detection</strong>,
+                <strong>Edge &amp; Corner Detection</strong>, <strong>Gradients</strong>,
+                and <strong>Laplacian of Gaussian</strong>.
+            </p>
+
+            <div class="task-switch">
+                <button id="m3-btn-segmentation" class="active" onclick="showModule3Task('m3-segmentation')">
+                    Segmentation (ArUco)
+                </button>
+                <button id="m3-btn-boundary" onclick="showModule3Task('m3-boundary')">
+                    Boundary Detection
+                </button>
+                <button id="m3-btn-edge-corner" onclick="showModule3Task('m3-edge-corner')">
+                    Edge &amp; Corner Detection
+                </button>
+                <button id="m3-btn-gradients" onclick="showModule3Task('m3-gradients')">
+                    Gradients
+                </button>
+                <button id="m3-btn-laplacian" onclick="showModule3Task('m3-laplacian')">
+                    Laplacian of Gaussian
+                </button>
+            </div>
+
+            <!-- M3: Segmentation -->
+            <div id="m3-segmentation" class="module3-task active">
+                <div class="card">
+                    <h3>Segmentation – ArUco Markers (aruco_segmentation.py)</h3>
+                    <p>
+                        Segmentation of ArUco marker images. Each input <code>objN.jpg</code>
+                        has a corresponding <code>objN_segmented.jpg</code> output.
+                    </p>
+
+                    <div class="subtitle">Input Images (module3/static/images_aruco)</div>
+                    <div class="image-row">
+                        <img src="module3/static/images_aruco/obj1.jpg" alt="obj1">
+                        <img src="module3/static/images_aruco/obj2.jpg" alt="obj2">
+                        <img src="module3/static/images_aruco/obj3.jpg" alt="obj3">
+                        <img src="module3/static/images_aruco/obj4.jpg" alt="obj4">
+                        <img src="module3/static/images_aruco/obj5.jpg" alt="obj5">
+                        <img src="module3/static/images_aruco/obj6.jpg" alt="obj6">
+                        <img src="module3/static/images_aruco/obj7.jpg" alt="obj7">
+                        <img src="module3/static/images_aruco/obj8.jpg" alt="obj8">
+                        <img src="module3/static/images_aruco/obj9.jpg" alt="obj9">
+                        <img src="module3/static/images_aruco/obj10.jpg" alt="obj10">
+                    </div>
+
+                    <div class="subtitle">Segmented Outputs (module3/static/results)</div>
+                    <div class="image-row">
+                        <img src="module3/static/results/obj1_segmented.jpg" alt="obj1 segmented">
+                        <img src="module3/static/results/obj2_segmented.jpg" alt="obj2 segmented">
+                        <img src="module3/static/results/obj3_segmented.jpg" alt="obj3 segmented">
+                        <img src="module3/static/results/obj4_segmented.jpg" alt="obj4 segmented">
+                        <img src="module3/static/results/obj5_segmented.jpg" alt="obj5 segmented">
+                        <img src="module3/static/results/obj6_segmented.jpg" alt="obj6 segmented">
+                        <img src="module3/static/results/obj7_segmented.jpg" alt="obj7 segmented">
+                        <img src="module3/static/results/obj8_segmented.jpg" alt="obj8 segmented">
+                        <img src="module3/static/results/obj9_segmented.jpg" alt="obj9 segmented">
+                        <img src="module3/static/results/obj10_segmented.jpg" alt="obj10 segmented">
+                    </div>
+                </div>
+            </div>
+
+            <!-- M3: Boundary -->
+            <div id="m3-boundary" class="module3-task">
+                <div class="card">
+                    <h3>Boundary Detection (boundary_detection.py)</h3>
+                    <p>
+                        Boundary/edge detection on the original object images.
+                    </p>
+
+                    <div class="subtitle">Input Images (module3/static/images_original)</div>
+                    <div class="image-row">
+                        <img src="module3/static/images_original/img1.jpg" alt="img1">
+                        <img src="module3/static/images_original/img2.jpg" alt="img2">
+                        <img src="module3/static/images_original/img3.jpg" alt="img3">
+                        <img src="module3/static/images_original/img4.jpg" alt="img4">
+                        <img src="module3/static/images_original/img5.jpg" alt="img5">
+                        <img src="module3/static/images_original/img6.jpg" alt="img6">
+                        <img src="module3/static/images_original/img7.jpg" alt="img7">
+                        <img src="module3/static/images_original/img8.jpg" alt="img8">
+                        <img src="module3/static/images_original/img9.jpg" alt="img9">
+                        <img src="module3/static/images_original/img10.jpg" alt="img10">
+                    </div>
+
+                    <div class="subtitle">Boundary / Edge Outputs (module3/static/results)</div>
+                    <div class="image-row">
+                        <img src="module3/static/results/img1_edges.jpg" alt="img1 edges">
+                        <img src="module3/static/results/img2_edges.jpg" alt="img2 edges">
+                        <img src="module3/static/results/img3_edges.jpg" alt="img3 edges">
+                        <img src="module3/static/results/img4_edges.jpg" alt="img4 edges">
+                        <img src="module3/static/results/img5_edges.jpg" alt="img5 edges">
+                        <img src="module3/static/results/img6_edges.jpg" alt="img6 edges">
+                        <img src="module3/static/results/img7_edges.jpg" alt="img7 edges">
+                        <img src="module3/static/results/img8_edges.jpg" alt="img8 edges">
+                        <img src="module3/static/results/img9_edges.jpg" alt="img9 edges">
+                        <img src="module3/static/results/img10_edges.jpg" alt="img10 edges">
+                    </div>
+                </div>
+            </div>
+
+            <!-- M3: Edge & Corner -->
+            <div id="m3-edge-corner" class="module3-task">
+                <div class="card">
+                    <h3>Edge &amp; Corner Detection (edge_corner.py)</h3>
+                    <p>
+                        Corner feature detection on each original image.
+                    </p>
+
+                    <div class="subtitle">Input Images (module3/static/images_original)</div>
+                    <div class="image-row">
+                        <img src="module3/static/images_original/img1.jpg" alt="img1">
+                        <img src="module3/static/images_original/img2.jpg" alt="img2">
+                        <img src="module3/static/images_original/img3.jpg" alt="img3">
+                        <img src="module3/static/images_original/img4.jpg" alt="img4">
+                        <img src="module3/static/images_original/img5.jpg" alt="img5">
+                        <img src="module3/static/images_original/img6.jpg" alt="img6">
+                        <img src="module3/static/images_original/img7.jpg" alt="img7">
+                        <img src="module3/static/images_original/img8.jpg" alt="img8">
+                        <img src="module3/static/images_original/img9.jpg" alt="img9">
+                        <img src="module3/static/images_original/img10.jpg" alt="img10">
+                    </div>
+
+                    <div class="subtitle">Corner Outputs (module3/static/results)</div>
+                    <div class="image-row">
+                        <img src="module3/static/results/img1_corners.jpg" alt="img1 corners">
+                        <img src="module3/static/results/img2_corners.jpg" alt="img2 corners">
+                        <img src="module3/static/results/img3_corners.jpg" alt="img3 corners">
+                        <img src="module3/static/results/img4_corners.jpg" alt="img4 corners">
+                        <img src="module3/static/results/img5_corners.jpg" alt="img5 corners">
+                        <img src="module3/static/results/img6_corners.jpg" alt="img6 corners">
+                        <img src="module3/static/results/img7_corners.jpg" alt="img7 corners">
+                        <img src="module3/static/results/img8_corners.jpg" alt="img8 corners">
+                        <img src="module3/static/results/img9_corners.jpg" alt="img9 corners">
+                        <img src="module3/static/results/img10_corners.jpg" alt="img10 corners">
+                    </div>
+                </div>
+            </div>
+
+            <!-- M3: Gradients -->
+            <div id="m3-gradients" class="module3-task">
+                <div class="card">
+                    <h3>Gradients (gradients.py)</h3>
+                    <p>
+                        Gradient magnitude (and angle) calculated for each original image.
+                    </p>
+
+                    <div class="subtitle">Input Images (module3/static/images_original)</div>
+                    <div class="image-row">
+                        <img src="module3/static/images_original/img1.jpg" alt="img1">
+                        <img src="module3/static/images_original/img2.jpg" alt="img2">
+                        <img src="module3/static/images_original/img3.jpg" alt="img3">
+                        <img src="module3/static/images_original/img4.jpg" alt="img4">
+                        <img src="module3/static/images_original/img5.jpg" alt="img5">
+                        <img src="module3/static/images_original/img6.jpg" alt="img6">
+                        <img src="module3/static/images_original/img7.jpg" alt="img7">
+                        <img src="module3/static/images_original/img8.jpg" alt="img8">
+                        <img src="module3/static/images_original/img9.jpg" alt="img9">
+                        <img src="module3/static/images_original/img10.jpg" alt="img10">
+                    </div>
+
+                    <div class="subtitle">Gradient Magnitude Outputs (module3/static/results)</div>
+                    <div class="image-row">
+                        <img src="module3/static/results/img1_gradient_magnitude.jpg" alt="img1 grad mag">
+                        <img src="module3/static/results/img2_gradient_magnitude.jpg" alt="img2 grad mag">
+                        <img src="module3/static/results/img3_gradient_magnitude.jpg" alt="img3 grad mag">
+                        <img src="module3/static/results/img4_gradient_magnitude.jpg" alt="img4 grad mag">
+                        <img src="module3/static/results/img5_gradient_magnitude.jpg" alt="img5 grad mag">
+                        <img src="module3/static/results/img6_gradient_magnitude.jpg" alt="img6 grad mag">
+                        <img src="module3/static/results/img7_gradient_magnitude.jpg" alt="img7 grad mag">
+                        <img src="module3/static/results/img8_gradient_magnitude.jpg" alt="img8 grad mag">
+                        <img src="module3/static/results/img9_gradient_magnitude.jpg" alt="img9 grad mag">
+                        <img src="module3/static/results/img10_gradient_magnitude.jpg" alt="img10 grad mag">
+                    </div>
+                </div>
+            </div>
+
+            <!-- M3: Laplacian -->
+            <div id="m3-laplacian" class="module3-task">
+                <div class="card">
+                    <h3>Laplacian of Gaussian (laplacian.py)</h3>
+                    <p>
+                        LoG filter highlighting blob-like structures and fine details.
+                    </p>
+
+                    <div class="subtitle">Input Images (module3/static/images_original)</div>
+                    <div class="image-row">
+                        <img src="module3/static/images_original/img1.jpg" alt="img1">
+                        <img src="module3/static/images_original/img2.jpg" alt="img2">
+                        <img src="module3/static/images_original/img3.jpg" alt="img3">
+                        <img src="module3/static/images_original/img4.jpg" alt="img4">
+                        <img src="module3/static/images_original/img5.jpg" alt="img5">
+                        <img src="module3/static/images_original/img6.jpg" alt="img6">
+                        <img src="module3/static/images_original/img7.jpg" alt="img7">
+                        <img src="module3/static/images_original/img8.jpg" alt="img8">
+                        <img src="module3/static/images_original/img9.jpg" alt="img9">
+                        <img src="module3/static/images_original/img10.jpg" alt="img10">
+                    </div>
+
+                    <div class="subtitle">LoG Outputs (module3/static/results)</div>
+                    <div class="image-row">
+                        <img src="module3/static/results/img1_LoG.jpg" alt="img1 LoG">
+                        <img src="module3/static/results/img2_LoG.jpg" alt="img2 LoG">
+                        <img src="module3/static/results/img3_LoG.jpg" alt="img3 LoG">
+                        <img src="module3/static/results/img4_LoG.jpg" alt="img4 LoG">
+                        <img src="module3/static/results/img5_LoG.jpg" alt="img5 LoG">
+                        <img src="module3/static/results/img6_LoG.jpg" alt="img6 LoG">
+                        <img src="module3/static/results/img7_LoG.jpg" alt="img7 LoG">
+                        <img src="module3/static/results/img8_LoG.jpg" alt="img8 LoG">
+                        <img src="module3/static/results/img9_LoG.jpg" alt="img9 LoG">
+                        <img src="module3/static/results/img10_LoG.jpg" alt="img10 LoG">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 4 – IMAGE STITCHING -->
+        <section id="module4" class="section">
+            <h2>Module 4 – Image Stitching</h2>
+            <!-- ======== MODULE 4 DEMO VIDEO ======== -->
+            <div class="card" style="margin-bottom:20px;">
+                <h3>Demo Video</h3>
+            
+                <video controls width="600" style="border-radius:10px; border:1px solid #ccc;">
+                    <source src="module4\module4_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p>
+                This module implements image stitching using feature detection, matching,
+                and homography estimation. It contains two tasks.
+            </p>
+
+            <div class="task-switch">
+                <button id="m4-btn-task1" class="active" onclick="showModule4Task('m4-task1')">
+                    Task 1 – Basic Stitching
+                </button>
+                <button id="m4-btn-task2" onclick="showModule4Task('m4-task2')">
+                    Task 2 – SIFT &amp; Custom Matching
+                </button>
+            </div>
+
+            <!-- M4: Task 1 -->
+            <div id="m4-task1" class="module4-task active">
+                <div class="card">
+                    <h3>Task 1 – Basic Image Stitching</h3>
+                    <p>
+                        Overlapping images are stitched into a single panorama.
+                    </p>
+
+                    <div class="subtitle">Input Images (module4/images_task1)</div>
+                    <div class="image-row">
+                        <img src="module4/images_task1/img1.jpg" alt="Task 1 img1">
+                        <img src="module4/images_task1/img2.jpg" alt="Task 1 img2">
+                        <img src="module4/images_task1/img3.jpg" alt="Task 1 img3">
+                        <img src="module4/images_task1/img4.jpg" alt="Task 1 img4">
+                    </div>
+
+                    <div class="subtitle">Output Panorama (module4/outputs_task1)</div>
+                    <div class="image-row">
+                        <img src="module4/outputs_task1/stitched_task1.jpg" alt="Task 1 stitched">
+                    </div>
+                </div>
+            </div>
+
+            <!-- M4: Task 2 -->
+            <div id="m4-task2" class="module4-task">
+                <div class="card">
+                    <h3>Task 2 – SIFT &amp; Custom Feature Matching</h3>
+                    <p>
+                        Comparison of a custom SIFT + RANSAC-based pipeline with OpenCV’s SIFT.
+                    </p>
+
+                    <div class="subtitle">Input Images (module4/images_task2)</div>
+                    <div class="image-row">
+                        <img src="module4/images_task2/img1.jpg" alt="Task 2 img1">
+                        <img src="module4/images_task2/img2.jpg" alt="Task 2 img2">
+                        <img src="module4/images_task2/img3.jpg" alt="Task 2 img3">
+                        <img src="module4/images_task2/img4.jpg" alt="Task 2 img4">
+                    </div>
+
+                    <div class="subtitle">Feature Matches – Custom</div>
+                    <div class="image-row">
+                        <img src="module4/outputs_task2/matches_custom_1.jpg" alt="custom1">
+                        <img src="module4/outputs_task2/matches_custom_2.jpg" alt="custom2">
+                        <img src="module4/outputs_task2/matches_custom_3.jpg" alt="custom3">
+                    </div>
+
+                    <div class="subtitle">Feature Matches – OpenCV SIFT</div>
+                    <div class="image-row">
+                        <img src="module4/outputs_task2/matches_opencv_1.jpg" alt="opencv1">
+                        <img src="module4/outputs_task2/matches_opencv_2.jpg" alt="opencv2">
+                        <img src="module4/outputs_task2/matches_opencv_3.jpg" alt="opencv3">
+                    </div>
+
+                    <div class="subtitle">Stitched Panoramas</div>
+                    <div class="image-row">
+                        <img src="module4/outputs_task2/stitched_custom_task2.jpg" alt="stitched custom">
+                        <img src="module4/outputs_task2/stitched_sift_task2.jpg" alt="stitched sift">
+                        <img src="module4/outputs_task2/stitched_sift_task2_custom.jpg" alt="stitched sift custom">
+                        <img src="module4/outputs_task2/stitched_sift_task2_opencv.jpg" alt="stitched sift opencv">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="module5_6" class="section">
+            <h2>Module 5 – Motion & Object Tracking</h2>
+        
+            <iframe src="module5_6/module5_6_final/module5_6.html" width="100%" height="900px"
+                style="border:none; border-radius:8px; background:white;">
+            </iframe>
+        </section>
+
+
+
+        <!-- MODULE 6 PLACEHOLDER -->
+        <section id="module5" class="section">
+            <h2>Module 5 – Motion & Object Tracking</h2>
+        
+            <iframe src="module5_6/module5_6_final/module5_6.html" width="100%" height="900px"
+                style="border:none; border-radius:8px; background:white;">
+            </iframe>
+        </section>
+
+        <!-- MODULE 6 PLACEHOLDER -->
+        <section id="module7" class="section">
+            <h2>Module 7</h2>
+        
+            <iframe src="module7_package\module7\module7.html" width="100%" height="900px"
+                style="border:none; border-radius:8px; background:white;">
+            </iframe>
+        </section>
+
+    <footer>
+        Image Processing Project – Modules 1–7
+    </footer>
+
+    <script>
+        // Switch main sections (Home, Module 1–7)
+        function showSection(id) {
+            document.querySelectorAll(".section").forEach(sec => {
+                sec.classList.remove("active");
+            });
+            document.getElementById(id).classList.add("active");
+
+            document.querySelectorAll(".nav-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            const buttons = document.querySelectorAll("nav button");
+            buttons.forEach(btn => {
+                if (btn.getAttribute("onclick").includes("'" + id + "'")) {
+                    btn.classList.add("active");
+                }
+            });
+        }
+
+        // Switch Module 3 subtasks
+        function showModule3Task(id) {
+            document.querySelectorAll(".module3-task").forEach(t => t.classList.remove("active"));
+            document.getElementById(id).classList.add("active");
+
+            document.getElementById("m3-btn-segmentation").classList.remove("active");
+            document.getElementById("m3-btn-boundary").classList.remove("active");
+            document.getElementById("m3-btn-edge-corner").classList.remove("active");
+            document.getElementById("m3-btn-gradients").classList.remove("active");
+            document.getElementById("m3-btn-laplacian").classList.remove("active");
+
+            if (id === "m3-segmentation") {
+                document.getElementById("m3-btn-segmentation").classList.add("active");
+            } else if (id === "m3-boundary") {
+                document.getElementById("m3-btn-boundary").classList.add("active");
+            } else if (id === "m3-edge-corner") {
+                document.getElementById("m3-btn-edge-corner").classList.add("active");
+            } else if (id === "m3-gradients") {
+                document.getElementById("m3-btn-gradients").classList.add("active");
+            } else if (id === "m3-laplacian") {
+                document.getElementById("m3-btn-laplacian").classList.add("active");
+            }
+        }
+
+        // Switch Module 4 tasks
+        function showModule4Task(id) {
+            document.querySelectorAll(".module4-task").forEach(t => t.classList.remove("active"));
+            document.getElementById(id).classList.add("active");
+
+            document.getElementById("m4-btn-task1").classList.remove("active");
+            document.getElementById("m4-btn-task2").classList.remove("active");
+
+            if (id === "m4-task1") {
+                document.getElementById("m4-btn-task1").classList.add("active");
+            } else {
+                document.getElementById("m4-btn-task2").classList.add("active");
+            }
+        }
+    </script>
+</body>
+
+</html>
