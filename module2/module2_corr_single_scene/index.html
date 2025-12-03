@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 2 – Correlation Template Matching & Fourier Transform</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      max-width: 1100px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    nav {
+      margin-bottom: 20px;
+    }
+
+    nav button {
+      margin-right: 10px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f5f5f5;
+    }
+
+    nav button.active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    section {
+      display: none;
+      margin-top: 10px;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    .io-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    .card img,
+    .card video,
+    .card canvas {
+      max-width: 100%;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .templates-strip img {
+      height: 80px;
+      margin-right: 6px;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+    }
+
+    .note {
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .code-tag {
+      font-family: "Courier New", monospace;
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+  </style>
+
+  <!-- ✅ Load OpenCV.js FIRST, synchronously -->
+  <script src="https://docs.opencv.org/4.x/opencv.js" type="text/javascript"></script>
+
+  <!-- ✅ Load your logic AFTER OpenCV, but before DOMContentLoaded -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <h1>Module 2 – Template Matching (Correlation) & Fourier Transform</h1>
+
+  <nav>
+    <button id="btn-task1" class="active" onclick="showSection('task1')">Task 1 – Correlation Template Matching</button>
+    <button id="btn-task2" onclick="showSection('task2')">Task 2 – Gaussian Blur & FFT</button>
+    <button id="btn-task3" onclick="showSection('task3')">Task 3 – Web App: DB of 10 Templates</button>
+  </nav>
+
+  <!-- Task 1: Correlation Template Matching (single scene, 10 templates) -->
+  <section id="task1" class="active">
+    <h2>Task 1 – Object Detection using Template Matching (Correlation)</h2>
+        <!-- ======== MODULE 2 – TASK 1 DEMO VIDEO ======== -->
+        <div class="card" style="margin-bottom:20px;">
+          <h3>Demo Video – Template Matching (Task 1)</h3>
+          <p class="note">This video demonstrates the Task 1 correlation-based template matching process.</p>
+        
+          <video controls width="600" style="border-radius:10px; border:1px solid #ccc;">
+            <source src="module2_demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+    <p>
+      Demonstrate detection of 10 objects in a scene using correlation-based template matching.
+      The templates (cropped images) must be taken from <b>different scenes</b>, not cropped from the scene image.
+      Here we use <b>one scene image</b> that contains all 10 objects, and 10 template images captured in different
+      backgrounds.
+    </p>
+    <p class="note">
+      Place your files as:
+      <span class="code-tag">task1/scene.jpg</span> (contains all 10 objects) and
+      <span class="code-tag">templates_task1/template1.jpg … template10.jpg</span> (templates from different scenes).
+      Then run <span class="code-tag">code/task1_template_matching.py</span> to generate
+      <span class="code-tag">task1/result_all.jpg</span>.
+    </p>
+
+    <div class="io-grid">
+      <div class="card">
+        <h3>Scene Image (All 10 Objects)</h3>
+        <p class="note">Replace this placeholder path with your actual scene image.</p>
+        <img src="task1/scene.jpg" alt="Scene with all 10 objects (placeholder)" />
+      </div>
+      <div class="card">
+        <h3>10 Template Images (Different Scenes)</h3>
+        <p class="note">Each template must be captured from a different background.</p>
+        <div class="templates-strip">
+          <img src="templates_task1/template1.jpg" alt="Template 1" />
+          <img src="templates_task1/template2.jpg" alt="Template 2" />
+          <img src="templates_task1/template3.jpg" alt="Template 3" />
+          <img src="templates_task1/template4.jpg" alt="Template 4" />
+          <img src="templates_task1/template5.jpg" alt="Template 5" />
+          <img src="templates_task1/template6.jpg" alt="Template 6" />
+          <img src="templates_task1/template7.jpg" alt="Template 7" />
+          <img src="templates_task1/template8.jpg" alt="Template 8" />
+          <img src="templates_task1/template9.jpg" alt="Template 9" />
+          <img src="templates_task1/template10.jpg" alt="Template 10" />
+        </div>
+      </div>
+      <div class="card">
+        <h3>Result – All 10 Objects Detected</h3>
+        <p class="note">This will be generated by <span class="code-tag">task1_template_matching.py</span>.</p>
+        <img src="task1/result_all.jpg" alt="Result with all detected objects (placeholder)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Task 2: Gaussian Blur + Fourier Deconvolution -->
+  <section id="task2">
+    <h2>Task 2 – Convolution and Fourier Transform</h2>
+    <p>
+      Consider an image L captured by your camera. Apply a Gaussian blur filter to obtain L_b,
+      then attempt to reconstruct L from L_b using Fourier transform-based image filtering.
+    </p>
+    <p class="note">
+      Place your images under <span class="code-tag">task2/</span> with filenames
+      <span class="code-tag">L.jpg</span>, <span class="code-tag">L_b.jpg</span> and
+      <span class="code-tag">L_restored.jpg</span>, or adjust the paths below.
+    </p>
+    <div class="io-grid">
+      <div class="card">
+        <h3>Original Image L</h3>
+        <img src="task2/L.jpg" alt="Original L (placeholder)" />
+      </div>
+      <div class="card">
+        <h3>Blurred Image L_b</h3>
+        <img src="task2/L_b.jpg" alt="Blurred L_b (placeholder)" />
+      </div>
+      <div class="card">
+        <h3>Restored Image (Fourier-based)</h3>
+        <img src="task2/L_restored.jpg" alt="Restored L (placeholder)" />
+      </div>
+    </div>
+    <p class="note">
+      A starter script is provided at <span class="code-tag">code/fft_deblur_template.py</span>.
+      You can adapt it to match your derivation in the report.
+    </p>
+  </section>
+
+  <!-- Task 3: Web App – DB of 10 templates + blur detected regions -->
+  <section id="task3">
+    <h2>Task 3 – Template Matching Web Application with Blurring</h2>
+    <p>
+      This interactive demo acts as a template matching web application. It uses a local database of 10 templates from
+      <span class="code-tag">templates/</span>, checks for their presence in a user-uploaded scene image using
+      correlation-based template matching,
+      and then blurs the entire detected regions.
+    </p>
+    <ol>
+      <li>Put your 10 template images in the <span class="code-tag">templates/</span> folder as <span
+          class="code-tag">template1.jpg</span> … <span class="code-tag">template10.jpg</span> (you can reuse the same
+        images as in <span class="code-tag">templates_task1/</span>).</li>
+      <li>Start a local server from <span class="code-tag">module2_corr_single_scene/</span> (e.g., <span
+          class="code-tag">python -m http.server 8000</span>).</li>
+      <li>Open <span class="code-tag">http://localhost:8000/index.html</span> in your browser.</li>
+      <li>Upload a scene image and click “Run Template Matching & Blur”.</li>
+    </ol>
+
+    <div class="card">
+      <h3>Template Database (Web App)</h3>
+      <p class="note">These are the 10 templates used by the web app (Task 3).</p>
+      <div class="templates-strip">
+        <img id="tpl1" src="templates/template1.jpg" alt="Template 1" />
+        <img id="tpl2" src="templates/template2.jpg" alt="Template 2" />
+        <img id="tpl3" src="templates/template3.jpg" alt="Template 3" />
+        <img id="tpl4" src="templates/template4.jpg" alt="Template 4" />
+        <img id="tpl5" src="templates/template5.jpg" alt="Template 5" />
+        <img id="tpl6" src="templates/template6.jpg" alt="Template 6" />
+        <img id="tpl7" src="templates/template7.jpg" alt="Template 7" />
+        <img id="tpl8" src="templates/template8.jpg" alt="Template 8" />
+        <img id="tpl9" src="templates/template9.jpg" alt="Template 9" />
+        <img id="tpl10" src="templates/template10.jpg" alt="Template 10" />
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:15px;">
+      <h3>Scene Upload & Result</h3>
+      <p>
+        <input type="file" id="sceneFile" accept="image/*" />
+        <button onclick="runTemplateMatching()" id="runBtn">Run Template Matching &amp; Blur</button>
+      </p>
+      <p class="note" id="statusMsg">Status: Waiting for OpenCV.js to load…</p>
+
+      <div class="io-grid">
+        <div>
+          <h4>Input Scene</h4>
+          <img id="sceneImg" alt="Scene preview" />
+        </div>
+        <div>
+          <h4>Output (Blurred Regions)</h4>
+          <canvas id="resultCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showSection(id) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+
+      const btns = document.querySelectorAll("nav button");
+      btns.forEach(b => b.classList.remove("active"));
+      document.getElementById("btn-" + id).classList.add("active");
+    }
+  </script>
+</body>
+
+</html>
